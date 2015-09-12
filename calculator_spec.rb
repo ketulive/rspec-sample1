@@ -4,12 +4,7 @@ def calc(expression)
   result = nil
   nums.each do |num|
     if result
-      case op
-      when "*"
-        result *= num.to_i
-      else
-        result += num.to_i
-      end
+      result = result.send(op, num.to_i)
     else
       result = num.to_i
     end
