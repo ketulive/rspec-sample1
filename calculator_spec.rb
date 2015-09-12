@@ -1,15 +1,6 @@
 def calc(expression)
   op = expression.scan(/\*|\+/).first
-  nums = expression.scan(/\d+/)
-  result = nil
-  nums.each do |num|
-    if result
-      result = result.send(op, num.to_i)
-    else
-      result = num.to_i
-    end
-  end
-  result
+  expression.scan(/\d+/).map(&:to_i).inject(&op.to_sym)
 end
 
 describe "calculator" do
