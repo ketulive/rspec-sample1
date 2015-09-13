@@ -1,14 +1,13 @@
 def calc(expression)
-  if expression.include?("+") then
-    expressions = expression.scan(/\d+|\*|\+|\&|\|/)
-    if expressions.length > 3 then
-      expression = _calc(expressions).join("")
+  result = expression.scan(/\*|\+|\&|\||\d+/)
+  %w(| & + *).each do |op|
+    while result.include? op
+      pos = result.index(op)
+      res = result[pos-1].to_i.send(op, result[pos+1].to_i)
+      result[pos-1..pos+1] = res
     end
   end
-  operators = expression.scan(/\*|\+|\&|\|/)
-  expression.scan(/\d+/).map(&:to_i).inject do |sum, n|
-    sum.send(operators.shift, n)
-  end
+  result.first
 end
 
 def _calc(expressions)
