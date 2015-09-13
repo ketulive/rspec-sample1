@@ -1,5 +1,5 @@
 def calc(expression)
-  op = expression.scan(/\*|\+/).first
+  op = expression.scan(/\*|\+|\&|\|/).first
   expression.scan(/\d+/).map(&:to_i).inject(&op.to_sym)
 end
 
@@ -10,5 +10,13 @@ describe "calculator" do
 
   it "15+5 = 20" do
     expect(calc("15+5")).to eq 20
+  end
+
+  it "15&5 = 5" do
+    expect(calc("15&5")).to eq 5
+  end
+
+  it "15|5 = 15" do
+    expect(calc("15|5")).to eq 15
   end
 end
