@@ -1,7 +1,13 @@
 def calc(expression)
-  op = expression.scan(/\*|\+|\&|\|/)
-  expression.scan(/\d+/).map(&:to_i).inject do|sum, n|
-    sum.send(op.shift, n)
+  if expression.include?("+") then
+    expressions = expression.scan(/\d+|\*|\+|\&|\|/)
+    if expressions.length > 3 then
+      expression = _calc(expressions).join("")
+    end
+  end
+  operators = expression.scan(/\*|\+|\&|\|/)
+  expression.scan(/\d+/).map(&:to_i).inject do |sum, n|
+    sum.send(operators.shift, n)
   end
 end
 
@@ -37,7 +43,6 @@ describe "calculator" do
   end
 
   it "30*15+5 = 600" do
-    pending("unimplemented")
     expect(calc("30*15+5")).to eq 600
   end
 
